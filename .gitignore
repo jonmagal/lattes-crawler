@@ -52,3 +52,26 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# Project
+main.py
+settings.py
+.settings/*
+
+/__init__.pyc
+/settings.pyc
