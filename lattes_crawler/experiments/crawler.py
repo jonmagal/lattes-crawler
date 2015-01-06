@@ -9,6 +9,9 @@ Created on 31/12/2014
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'lattes_crawler.settings'
 
+import django
+django.setup()
+
 from lattes_crawler.crawler                 import lattes
 from lattes_crawler.apps.research.models    import Research
 
@@ -51,8 +54,9 @@ def save_lattes(research):
                 research.collaborators.add(research_col)
                 research.save()
         
-def walk_lattes(lattes_id_seed):
-    save_attributes(lattes_id_seed)
+def walk_lattes(lattes_id_seed = None):
+    if lattes_id_seed != None:
+        save_attributes(lattes_id_seed)
     while True:
         researches = Research.objects.filter(lattes_information = None)
         
@@ -70,14 +74,18 @@ def test2():
     research = Research.objects.get(id = 1)
     collaborators = get_collab(research)
     print collaborators
-        
+
+def test3():
+    print lattes.get_cv_lattes(lattes_id = "7151033935149782")
+    
 def main():
     seeds = ["8951598251334162", "5760364940162939", "6935433850568144", "7337100011232657", "3697034512999386", 
              "4671683163069536", "3198452549472216", "6322106621770962", "2127559774805521", "9348556938029052", 
              "5192472683408995", "9747151229532463", "8053391833089941", "0590320684933608", "5787113463718492",
              "7151033935149782"]
-    for seed in seeds:
+    for seed in seeds[::-1]:
         walk_lattes(lattes_id_seed = seed)
 
 if __name__ == '__main__':
-    main()
+    #main()
+    walk_lattes()
