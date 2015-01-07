@@ -13,7 +13,7 @@ class Research(models.Model):
     lattes_id           = models.CharField(max_length = 30)
     update              = models.DateTimeField(blank = True, auto_now = True)
     
-    collaborators       = models.ManyToManyField('self')
+    collaborators       = models.ManyToManyField('self', null = True)
     
     def is_saved(self):
         #print self.lattes_information, 'verify'

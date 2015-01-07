@@ -32,14 +32,12 @@ def get_collab(research):
     return col_list
     
 def save_attributes(lattes_id):
-    try:
-        research = Research.objects.get(lattes_id = lattes_id)
+    research, created = Research.objects.get_or_create(lattes_id = lattes_id)
+    if created == False:
         if not research.is_saved():
             research.lattes_information = lattes.get_cv_lattes(lattes_id)
             research.save()
-    except:
-        research            = Research()
-        research.lattes_id  = lattes_id
+    else:
         research.save()
     return research
 
@@ -58,12 +56,10 @@ def walk_lattes(lattes_id_seed = None):
     if lattes_id_seed != None:
         save_attributes(lattes_id_seed)
     while True:
-        researches = Research.objects.filter(lattes_information = None)
-        
-        if not researches:
+        research = Research.objects.filter(lattes_information = None).first()
+        if not research:
             return
-        for research in researches:
-            save_lattes(research)
+        save_lattes(research)
 
 def test():
     researches = Research.objects.all()
@@ -77,7 +73,7 @@ def test2():
 
 def test3():
     print lattes.get_cv_lattes(lattes_id = "7151033935149782")
-    
+
 def main():
     seeds = ["8951598251334162", "5760364940162939", "6935433850568144", "7337100011232657", "3697034512999386", 
              "4671683163069536", "3198452549472216", "6322106621770962", "2127559774805521", "9348556938029052", 
@@ -87,5 +83,5 @@ def main():
         walk_lattes(lattes_id_seed = seed)
 
 if __name__ == '__main__':
-    #main()
     walk_lattes()
+    
