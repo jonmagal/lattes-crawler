@@ -12,6 +12,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'lattes_crawler.settings'
 import django
 django.setup()
 
+import gc
+
 from lattes_crawler.crawler                 import lattes
 from lattes_crawler.apps.research.models    import Research
 
@@ -51,7 +53,11 @@ def save_lattes(research):
                 research_col            = save_attributes(col)
                 research.collaborators.add(research_col)
                 research.save()
-        
+    gc.enable()
+    del research
+    del collaborators
+    gc.collect()
+    
 def walk_lattes(lattes_id_seed = None):
     if lattes_id_seed != None:
         save_attributes(lattes_id_seed)
@@ -60,7 +66,7 @@ def walk_lattes(lattes_id_seed = None):
         if not research:
             return
         save_lattes(research)
-
+        
 def test():
     researches = Research.objects.all()
     for research in researches:
