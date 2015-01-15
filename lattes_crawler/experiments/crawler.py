@@ -30,7 +30,14 @@ def get_collab(research):
     else:
         idcolaboradorlist   = colaboradores[0].getElementsByTagName("id_lattes_colaborador")
     
-    col_list = [x.firstChild.nodeValue for x in idcolaboradorlist ]
+    col_list = [ x.firstChild.nodeValue for x in idcolaboradorlist ]
+    
+    gc.enable()
+    del parsedxml          
+    del curriculo_lattes   
+    del pesquisador
+    del colaboradores 
+    gc.collect()
     return col_list
     
 def save_attributes(lattes_id):
@@ -66,6 +73,9 @@ def walk_lattes(lattes_id_seed = None):
         if not research:
             return
         save_lattes(research)
+        gc.enable()
+        del research
+        gc.collect()
         
 def test():
     researches = Research.objects.all()
