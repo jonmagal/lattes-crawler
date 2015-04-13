@@ -19,8 +19,17 @@ from lattes_crawler.apps.research.models    import Research
 
 from xml.dom import minidom
 
+def get_collab(research):
+    """
+    Receives an object, parses it's XML and returns 
+    a list of it's collaborators's lattes_id. 
+    
+    @param research: Research class object
 
-def get_collab(research): 
+    @rtype: List
+    @return: A list of Researcher's collaborators's Lattes IDs.
+
+    """ 
     parsedxml           = minidom.parseString(research.lattes_information.encode('utf8'))
     curriculo_lattes    = parsedxml.getElementsByTagName("curriculo_lattes")[0]
     pesquisador         = curriculo_lattes.getElementsByTagName("pesquisador")[0]
@@ -34,13 +43,24 @@ def get_collab(research):
     
     gc.enable()
     del parsedxml          
-    del curriculo_lattes   
+    del curriculo_lattes   # Attempt to resolve Memory Overuse
     del pesquisador
     del colaboradores 
     gc.collect()
     return col_list
     
 def save_attributes(lattes_id):
+    """
+    Receives a string, searches if the object 
+    is on the database. If object's XML isn't saved, get_cv_lattes
+    downloads the desired XML. Object is saved. Returns the object.
+    
+    @type lattes_id: string
+    @param lattes_id: Researcher's Lattes ID.
+    
+    @rtype: Research class object.
+    @return: A Researcher.
+    """
     research, created = Research.objects.get_or_create(lattes_id = lattes_id)
     if created == False:
         if not research.is_saved():
@@ -48,9 +68,19 @@ def save_attributes(lattes_id):
             research.save()
     else:
         research.save()
+    
     return research
 
 def save_lattes(research):
+    """
+    Receives an object whose lattes_id is received as argument
+    by save_attributes function. If the research's XML is already
+    saved, it's collaborators are saved and passed as arguments by
+    save_attributes.
+    
+    @type research: Research class object
+    @param research: A Researcher.
+    """
     research = save_attributes(research.lattes_id) 
     
     if research.lattes_information is not None:
@@ -66,8 +96,18 @@ def save_lattes(research):
     gc.collect()
     
 def walk_lattes(lattes_id_seed = None):
+    """
+    Receives a list of lattes_id as seeds. Saves all CV Lattes.
+ 
+    @warning: Causing memory overuse
+
+    @type lattes_id_seed: list 
+    @param lattes_id_seed: A list of Lattes IDs to use as seeds
+                           for the crawler. 
+    """
     if lattes_id_seed != None:
         save_attributes(lattes_id_seed)
+    
     while True:
         research = Research.objects.filter(lattes_information = None).first()
         if not research:
@@ -76,6 +116,7 @@ def walk_lattes(lattes_id_seed = None):
         gc.enable()
         del research
         gc.collect()
+    print "FINISHED"
         
 def test():
     researches = Research.objects.all()
@@ -89,6 +130,7 @@ def test2():
 
 def test3():
     print lattes.get_cv_lattes(lattes_id = "7151033935149782")
+                    
 
 def main():
     seeds = ["8951598251334162", "5760364940162939", "6935433850568144", "7337100011232657", "3697034512999386", 
