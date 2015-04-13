@@ -6,11 +6,7 @@ Created on 31/12/2014
 @author: Jonathas Magalhães
 '''
 
-'''
-@warning: Causing memory overuse
-'''
 import os
-from lattes_crawler.crawler.lattes import get_cv_lattes
 os.environ['DJANGO_SETTINGS_MODULE'] = 'lattes_crawler.settings'
 
 import django
@@ -27,6 +23,12 @@ def get_collab(research):
     """
     Receives an object, parses it's XML and returns 
     a list of it's collaborators's lattes_id. 
+    
+    @param research: Research class object
+
+    @rtype: List
+    @return: A list of Researcher's collaborators's Lattes IDs.
+
     """ 
     parsedxml           = minidom.parseString(research.lattes_information.encode('utf8'))
     curriculo_lattes    = parsedxml.getElementsByTagName("curriculo_lattes")[0]
@@ -51,7 +53,13 @@ def save_attributes(lattes_id):
     """
     Receives a string, searches if the object 
     is on the database. If object's XML isn't saved, get_cv_lattes
-    downloads the desired XML. Object is saved. Returns the object. 
+    downloads the desired XML. Object is saved. Returns the object.
+    
+    @type lattes_id: string
+    @param lattes_id: Researcher's Lattes ID.
+    
+    @rtype: Research class object.
+    @return: A Researcher.
     """
     research, created = Research.objects.get_or_create(lattes_id = lattes_id)
     if created == False:
@@ -69,6 +77,9 @@ def save_lattes(research):
     by save_attributes function. If the research's XML is already
     saved, it's collaborators are saved and passed as arguments by
     save_attributes.
+    
+    @type research: Research class object
+    @param research: A Researcher.
     """
     research = save_attributes(research.lattes_id) 
     
@@ -86,7 +97,13 @@ def save_lattes(research):
     
 def walk_lattes(lattes_id_seed = None):
     """
-    Receives a list of lattes_id as seeds. Saves all CV Lattes. 
+    Receives a list of lattes_id as seeds. Saves all CV Lattes.
+ 
+    @warning: Causing memory overuse
+
+    @type lattes_id_seed: list 
+    @param lattes_id_seed: A list of Lattes IDs to use as seeds
+                           for the crawler. 
     """
     if lattes_id_seed != None:
         save_attributes(lattes_id_seed)

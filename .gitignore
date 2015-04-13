@@ -52,6 +52,9 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Epydoc documentation
+html/
+
 # Project
 settings.py
 .settings/*

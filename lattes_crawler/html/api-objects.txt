@@ -1,0 +1,10 @@
+lattes_crawler.experiments.crawler	lattes_crawler.experiments.crawler-module.html
+lattes_crawler.experiments.crawler.save_lattes	lattes_crawler.experiments.crawler-module.html#save_lattes
+lattes_crawler.experiments.crawler.test3	lattes_crawler.experiments.crawler-module.html#test3
+lattes_crawler.experiments.crawler.main	lattes_crawler.experiments.crawler-module.html#main
+lattes_crawler.experiments.crawler.walk_lattes	lattes_crawler.experiments.crawler-module.html#walk_lattes
+lattes_crawler.experiments.crawler.get_collab	lattes_crawler.experiments.crawler-module.html#get_collab
+lattes_crawler.experiments.crawler.test2	lattes_crawler.experiments.crawler-module.html#test2
+lattes_crawler.experiments.crawler.save_attributes	lattes_crawler.experiments.crawler-module.html#save_attributes
+lattes_crawler.experiments.crawler.test	lattes_crawler.experiments.crawler-module.html#test
+lattes_crawler.experiments.crawler.__package__	lattes_crawler.experiments.crawler-module.html#__package__
