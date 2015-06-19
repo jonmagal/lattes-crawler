@@ -4,15 +4,14 @@
 '''
 
 import os
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'lattes_crawler.settings'
 
 import django
 django.setup()
 
 from xml.dom import minidom
-from lattes_crawler.crawler.lattes import get_cv_lattes
 from lattes_crawler.apps.research.models import Research
-from lattes_crawler.apps.research.models import Info
 
 def extract_information(research):
     """
@@ -145,7 +144,7 @@ def extract_information(research):
     research.save()
 
 def main():
-    research_list = Research.objects.filter(lattes_information != None)
+    research_list = Research.objects.exclude(lattes_information = None)
     if not research_list:
         return
     for research in research_list:
