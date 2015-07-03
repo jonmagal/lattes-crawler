@@ -25,9 +25,9 @@ class ResearchInfo(models.Model):
     This class represents a Rearcher's information.
     '''
     research    = models.ForeignKey('research')
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True, null=True)
     year        = models.PositiveIntegerField(blank=True, null=True)
-    data_type   = models.CharField(max_length = 50, blank = True)
+    data_type   = models.CharField(max_length = 50, blank = True, null=True)
     
     
     
