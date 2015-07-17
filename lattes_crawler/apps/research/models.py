@@ -28,6 +28,23 @@ class ResearchInfo(models.Model):
     description = models.TextField(blank=True, null=True)
     year        = models.PositiveIntegerField(blank=True, null=True)
     data_type   = models.CharField(max_length = 50, blank = True, null=True)
+
+class SmallArea(models.Model):
+    '''
+    '''
+    area    = models.TextField(blank=True, null=True)
+    bigarea = models.TextField(blank=True, null=True)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

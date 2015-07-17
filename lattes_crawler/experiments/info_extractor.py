@@ -209,10 +209,10 @@ def main():
         return
     for research_id in research_list:
         research = Research.objects.get(id = research_id['id'])
-        if research.lattes_id == '4386203755404108':
-            pass
-        else:
+        try:
             extract_information(research)
+        except:
+            pass
         
 if __name__ == '__main__':
     main()
