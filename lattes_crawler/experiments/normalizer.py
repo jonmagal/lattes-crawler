@@ -17,9 +17,10 @@ from lattes_crawler.apps.research.models import ResearchInfo, SmallArea
 def main():
     graduation_list = ResearchInfo.objects.filter(data_type = "Graduação").values("description").distinct()
     for graduation in graduation_list:
-        graduation = TextAnalyzer()
-        graduation = graduation.lower_case()
-        graduation = graduation.remove_special_char()
+        analyzer = TextAnalyzer()
+        graduation = analyzer.lower_case(graduation['description'])
+        graduation = analyzer.remove_special_char(graduation)
+        print graduation
         
         if '%administracao%' in graduation:
             designation = SmallArea()
