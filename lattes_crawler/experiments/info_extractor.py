@@ -18,7 +18,7 @@ def save_info(research, data_type, description, year):
     """
     Saves a row of information from a Researcher
     """
-    info = ResearchInfo()
+    info               = ResearchInfo()
     info.research      = research
     info.data_type     = data_type
     info.description   = description
