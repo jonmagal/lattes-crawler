@@ -82,11 +82,18 @@ def main():
             print "check"
             
         if 'fisica' in graduation:
-            designation = SmallArea()
-            designation.area = graduation
-            designation.bigarea = "Física"
-            designation.save()
-            print "check"
+            if 'educacao' in graduation:
+                designation = SmallArea()
+                designation.area = graduation
+                designation.bigarea = "Educação Física"
+                designation.save()
+                print "check"
+            else:
+                designation = SmallArea()
+                designation.area = graduation
+                designation.bigarea = "Física"
+                designation.save()
+                print "check"
         
         if 'medicina' in graduation:
             designation = SmallArea()
@@ -102,10 +109,10 @@ def main():
             designation.save()
             print "check"
         
-        if '' in graduation:
+        if 'computacao' in graduation:
             designation = SmallArea()
             designation.area = graduation
-            designation.bigarea = "Administração"
+            designation.bigarea = "Computação"
             designation.save()
             print "check"
         
